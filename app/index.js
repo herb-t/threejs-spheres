@@ -1,3 +1,8 @@
 'use strict';
 
-console.log('index.js loaded');
+var colors = require('./colors');
+
+var ThreeScene = require('./modules/SceneController');
+
+var scene = new ThreeScene();
+

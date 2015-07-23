@@ -1,0 +1,101 @@
+'use strict';
+
+var colors = require('../colors');
+
+var ThreeScene = function(){
+
+	this.sceneWidth = document.body.clientWidth;
+	this.sceneheight = document.body.clientHeight;
+
+	this.viewAngle = 45;
+	this.aspect = this.sceneWidth/this.sceneWidth;
+	this.near = 0.1;
+	this.far = 10000;
+
+	this.container = document.querySelector('#container');	
+
+	this.init();
+};
+
+ThreeScene.prototype.init = function(){
+
+	this.renderer = new THREE.WebGLRenderer({antialias: true});
+
+	this.scene = new THREE.Scene();
+	
+	this.renderer.setClearColor(0xfcfcfc, 1.0);
+
+	this.renderer.clear();
+	this.renderer.setSize(this.sceneWidth, this.sceneWidth);
+
+	this.setupCamera();
+	this.spheres();
+	this.renderer.render(this.scene, this.camera);
+	//this.animate(new Date().getTime());
+	this.container.appendChild(this.renderer.domElement);
+
+};
+
+ThreeScene.prototype.setupCamera = function(){
+
+	this.camera = new THREE.PerspectiveCamera(this.viewAngle, this.aspect, this.near, this.far);
+
+	// this.scene.add(this.camera);
+
+	this.camera.position.z = 300;
+
+};
+
+ThreeScene.prototype.spheres = function(){
+	
+	var radius = 20,
+	    segments = 16,
+	    rings = 16;
+
+	var sphereMaterialOne = new THREE.MeshLambertMaterial({ color: 0x23819C });
+	var sphereMaterialTwo = new THREE.MeshLambertMaterial({ color: 0x00F5FF });
+
+	// this.radius = 20;
+	// this.segments = 16;
+	// this.rings = 16;
+	
+	// this.sphereMaterialOne = new THREE.MeshLambertMaterial({ color: 0x23819C });
+	// this.sphereMaterialTwo = new THREE.MeshLambertMaterial({ color: 0x00F5FF });
+
+	this.sphere = new THREE.Mesh( new THREE.SphereGeometry(radius, segments, rings), sphereMaterialOne);
+	this.sphereTwo = new THREE.Mesh( new THREE.SphereGeometry(radius, segments, rings), sphereMaterialTwo);
+
+	this.sphere.rotation.y = -Math.PI / 2;
+	this.sphere.position.x = 10;
+	this.sphereTwo.rotation.y = -Math.PI / 2;
+	this.sphereTwo.position.x = 100;
+
+	this.scene.add(this.sphere);
+	this.scene.add(this.sphereTwo);
+
+	// light
+	this.pointLight = new THREE.PointLight(0xFFFFFF);
+
+	// set its position
+	this.pointLight.position.x = 10;
+	this.pointLight.position.y = 50;
+	this.pointLight.position.z = 130;
+
+	this.scene.add(this.pointLight);
+};
+
+// ThreeScene.prototype.animate = function(t){
+
+// 	// spin the camera in a circle
+// 	this.camera.position.x = Math.sin(t/1000)*300;
+// 	this.camera.position.y = 150;
+// 	this.camera.position.z = Math.cos(t/1000)*300;
+// 	// you need to update lookAt on every frame
+// 	this.camera.lookAt(this.scene.position);
+// 	// renderer automatically clears unless autoClear = false
+// 	this.renderer.render(this.scene, this.camera);
+// 	window.requestAnimationFrame(this.animate, this.renderer.domElement);
+
+// };
+
+module.exports = ThreeScene;
