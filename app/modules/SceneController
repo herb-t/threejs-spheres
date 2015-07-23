@@ -31,7 +31,7 @@ ThreeScene.prototype.init = function(){
 	this.setupCamera();
 	this.spheres();
 	this.renderer.render(this.scene, this.camera);
-	//this.animate(new Date().getTime());
+	this.animate(new Date().getTime());
 	this.container.appendChild(this.renderer.domElement);
 
 };
@@ -40,7 +40,7 @@ ThreeScene.prototype.setupCamera = function(){
 
 	this.camera = new THREE.PerspectiveCamera(this.viewAngle, this.aspect, this.near, this.far);
 
-	// this.scene.add(this.camera);
+	this.scene.add(this.camera);
 
 	this.camera.position.z = 300;
 
@@ -84,18 +84,18 @@ ThreeScene.prototype.spheres = function(){
 	this.scene.add(this.pointLight);
 };
 
-// ThreeScene.prototype.animate = function(t){
+ThreeScene.prototype.animate = function(t){
 
-// 	// spin the camera in a circle
-// 	this.camera.position.x = Math.sin(t/1000)*300;
-// 	this.camera.position.y = 150;
-// 	this.camera.position.z = Math.cos(t/1000)*300;
-// 	// you need to update lookAt on every frame
-// 	this.camera.lookAt(this.scene.position);
-// 	// renderer automatically clears unless autoClear = false
-// 	this.renderer.render(this.scene, this.camera);
-// 	window.requestAnimationFrame(this.animate, this.renderer.domElement);
+	// spin the camera in a circle
+	this.camera.position.x = Math.sin(t/1000)*300;
+	this.camera.position.y = 150;
+	this.camera.position.z = Math.cos(t/1000)*300;
 
-// };
+	this.camera.lookAt(this.scene.position);
+
+	this.renderer.render(this.scene, this.camera);
+	window.requestAnimationFrame(this.animate, this.renderer.domElement);
+
+};
 
 module.exports = ThreeScene;
